@@ -46,7 +46,7 @@ public class UserController {
     
     @GetMapping("/welcome")
 	public String welcome() {
-		return "Welcome to spring boot project";
+		return "Welcome to my library project";
 	}
 
 }
