@@ -34,9 +34,19 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
         UserDTO user = userService.getUserById(id);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @GetMapping("/phoneNumber/{phoneNumber}")
+    public ResponseEntity<UserDTO> getUserByPhoneNumber(@PathVariable String phoneNumber) {
+        UserDTO user = userService.getUserByPhoneNumber(phoneNumber);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
         } else {

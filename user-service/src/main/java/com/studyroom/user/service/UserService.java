@@ -35,4 +35,9 @@ public class UserService {
         Optional<UserEntity> userEntityOptional = userRepository.findById(id);
         return userEntityOptional.map(userMapper::convertToDto).orElse(null);
     }
+    
+    public UserDTO getUserByPhoneNumber(String phoneNumber) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByPhoneNumber(phoneNumber);
+        return userEntityOptional.map(userMapper::convertToDto).orElse(null);
+    }
 }
