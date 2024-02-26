@@ -30,10 +30,11 @@ public class LibraryService {
 			List<Long> localityIds, int limit) {
 		List<LibraryEntity> libraries;
 
-		// If localityIds are provided, fetch libraries within the specified district
-		// and localities
-		if (localityIds != null && !localityIds.isEmpty()) {
-			libraries = libraryRepository.findByDistrictIdAndLocalityIdIn(districtId, localityIds);
+		// If localityIds and DistrictIds are not provided
+		if (!(districtId != null & (localityIds != null && !localityIds.isEmpty()))) {
+			libraries = libraryRepository.findAll();
+		} else if (localityIds != null && !localityIds.isEmpty()) {
+			libraries = libraryRepository.findByDistrictIdAndLocalityIdIn(districtId, localityIds);// If localityIds are provided, fetch libraries within the specified district and localities
 		} else {
 			// Otherwise, fetch libraries only within the specified district
 			libraries = libraryRepository.findByDistrictId(districtId);
@@ -60,6 +61,16 @@ public class LibraryService {
 		return libraryMapper.convertToDtoList(nearestLibraries);
 
 	}
+	
+	//Add Libraries
+	public void addLibrary(LibraryDTO libraryDTO) {
+        // Convert LibraryDTO to LibraryEntity
+        LibraryEntity libraryEntity = libraryMapper.convertToEntity(libraryDTO);
+
+        // Save the library entity to the database
+        libraryRepository.save(libraryEntity);
+    }
+
 
 	// Calculate distance between two coordinates using Haversine formula
 	private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
