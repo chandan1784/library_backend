@@ -18,21 +18,30 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PublishMessage publishMessage;
-
+    boolean testIndRestApi=false;
+    boolean testIndMessagingBroker=false;
+    
     public UserService(UserRepository userRepository, UserMapper userMapper, PublishMessage publishMessage) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.publishMessage=publishMessage;
     }
 
-    public UserDTO createUser(UserDTO userDTO) {
-    	 UserEntity userEntity = userMapper.convertToEntity(userDTO);
-         userEntity = userRepository.save(userEntity);
-         UserDTO createdUser = userMapper.convertToDto(userEntity);
-         if(createdUser!=null)
-         publishMessage.publish("User Added Successfully");
+	public UserDTO createUser(UserDTO userDTO) {
+		UserEntity userEntity = userMapper.convertToEntity(userDTO);
+		userEntity = userRepository.save(userEntity);
+		UserDTO createdUser = userMapper.convertToDto(userEntity);
+		
+		// Testing communication between Two microservices using Message Broker to send the email after successfull registration via AWS ses email
+		if (createdUser != null && testIndMessagingBroker)
+			publishMessage.publish("User Added Successfully");
+
+		// Testing communication between Two microservices using HTTP protocol  to send the email after successfull registration via AWS ses email
+		if (createdUser != null && testIndRestApi)
+			NetworkManager.sendResponse("User Added Successfully");
+
 		return createdUser;
-    }
+	}
 
    public List<UserDTO> getAllUsers() {
         List<UserEntity> userEntities = userRepository.findAll();
