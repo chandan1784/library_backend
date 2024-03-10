@@ -1,6 +1,8 @@
 package com.studyroom.user.controller;
 
 import com.studyroom.user.model.dto.UserDTO;
+import com.studyroom.user.service.NetworkManager;
+import com.studyroom.user.service.NotificationClient;
 import com.studyroom.user.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,9 +19,14 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final NetworkManager networkManager;
+	private final NotificationClient notificationClient;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService,NotificationClient notificationClient, NetworkManager networkManager) {
         this.userService = userService;
+        this.notificationClient = notificationClient;
+        this.networkManager = networkManager;
+
     }
 
     @PostMapping
@@ -57,8 +64,10 @@ public class UserController {
     }
     
     @GetMapping("/welcome")
-	public String welcome() {
-		return "Welcome to my library project 1";
-	}
+    public String welcome() {
+		//return "Welcome to my library project 1";
+    	//return notificationClient.welcome(); //using feignClient api call
+    	return networkManager.sendGetRequest();//using HttpUrlConnection api call
+    }
 
 }

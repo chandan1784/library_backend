@@ -2,6 +2,7 @@ package com.studyroom.notification.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,5 +55,10 @@ public class NotificationController {
 		//return null;
 
 		return "mail is sent successfully";
+	}
+	
+	@GetMapping("/notification")
+	public String welcome() {
+		return "You are calling noti endpoint internally";
 	}
 }
