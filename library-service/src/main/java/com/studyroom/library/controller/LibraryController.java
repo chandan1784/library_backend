@@ -78,4 +78,8 @@ public class LibraryController {
         return new ResponseEntity<>(nearestLibraries, headers, HttpStatus.OK);
 
     }
+    @GetMapping("/library-test")
+	public String libraryTest() {
+		return "You are calling library microserice";
+	}
 }

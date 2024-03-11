@@ -66,8 +66,8 @@ public class UserController {
     @GetMapping("/welcome")
     public String welcome() {
 		//return "Welcome to my library project 1";
-    	//return notificationClient.welcome(); //using feignClient api call
-    	return networkManager.sendGetRequest();//using HttpUrlConnection api call
+    	return notificationClient.welcome(); //using feignClient api call
+    	//return networkManager.sendGetRequest();//using HttpUrlConnection api call
     }
 
 }
